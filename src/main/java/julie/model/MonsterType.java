@@ -1,4 +1,4 @@
-package julie.util;
+package julie.model;
 
 public enum MonsterType {
     GOBLIN("Гоблин", 20, 5, 1, 12, 10),
