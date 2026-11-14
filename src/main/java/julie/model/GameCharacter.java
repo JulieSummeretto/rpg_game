@@ -5,8 +5,8 @@ import julie.util.Dice;
 public abstract class GameCharacter {
     private final String name;
     private int HP;
-    private final int maxHP;
-    private final int ATK;
+    private int maxHP;
+    private int ATK;
     private int CR;
 
     protected GameCharacter(String name, int HP, int ATK, int CR){
@@ -24,6 +24,11 @@ public abstract class GameCharacter {
         int before = HP;
         HP = Math.min(maxHP, HP + amount);
         return HP - before;
+    }
+
+    protected void increaseStats(int hpBonus, int atkBonus) {
+        maxHP += hpBonus;
+        ATK += atkBonus;
     }
 
     public AttackRecord attack(GameCharacter target) {

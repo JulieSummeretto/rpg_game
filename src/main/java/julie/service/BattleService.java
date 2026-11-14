@@ -42,7 +42,18 @@ public class BattleService {
             }
         }
 
-        return hero.isAlive() ? BattleResult.VICTORY : BattleResult.DEFEAT;
+        if (hero.isAlive()) {
+            int exp = monster.getExpReward();
+            int gold = monster.getRewardGold();
+            int levels = hero.receiveReward(exp, gold);
+
+            System.out.println("Награда: " + exp + " опыта, " + gold + " золота.");
+            if (levels > 0) {
+                System.out.println("Новый уровень: " + hero.getLvl() + "! Здоровье восстановлено.");
+            }
+            return BattleResult.VICTORY;
+        }
+        return BattleResult.DEFEAT;
 
     }
 

@@ -2,7 +2,10 @@ package julie.model;
 
 public class Hero extends GameCharacter{
     private int lvl;
-    private int CR = 15;
+    private int CR;
+
+    private int exp;
+    private int gold;
 
     private int healPotions = 3;
 
@@ -13,6 +16,41 @@ public class Hero extends GameCharacter{
         restoreHealth(amount);
         healPotions--;
         return true;
+    }
+
+    public int expForNextLvl() {
+        return lvl * 100;
+    }
+
+    public int receiveReward(int expAmount, int goldAmount) {
+        gold += goldAmount;
+        exp += expAmount;
+
+        int lvlUps = 0;
+        while (exp >= expForNextLvl()) {
+            exp -= expForNextLvl();
+            lvl++;
+            lvlUps++;
+            applyLvlUp();
+        }
+        return lvlUps;
+    }
+
+    public void applyLvlUp() {
+        increaseStats(10, 4);
+        restoreHealth(getMaxHP());
+    }
+
+    public int getLvl() {
+        return lvl;
+    }
+
+    public int getExp() {
+        return exp;
+    }
+
+    public int getGold() {
+        return gold;
     }
 
 
