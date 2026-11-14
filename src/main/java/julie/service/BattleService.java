@@ -11,7 +11,11 @@ import java.util.Scanner;
 
 public class BattleService {
 
-    private final Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner;
+
+    public BattleService(Scanner scanner) {
+        this.scanner = scanner;
+    }
 
     public BattleResult fight(Hero hero, Monster monster) {
         System.out.println("Вы встретили врага: " + monster.getName());
@@ -49,7 +53,8 @@ public class BattleService {
 
             System.out.println("Награда: " + exp + " опыта, " + gold + " золота.");
             if (levels > 0) {
-                System.out.println("Новый уровень: " + hero.getLvl() + "! Здоровье восстановлено.");
+                System.out.println("Новый уровень: " + hero.getLvl() + "! Здоровье и зелья восстановлены.");
+                hero.refillPotions();
             }
             return BattleResult.VICTORY;
         }

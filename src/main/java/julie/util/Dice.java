@@ -1,7 +1,11 @@
 package julie.util;
 
 import julie.model.AttackRecord;
+import julie.model.Monster;
+import julie.model.MonsterType;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class Dice {
@@ -18,6 +22,13 @@ public class Dice {
             dmg *= 2;
         }
         return new AttackRecord(dmg, crit);
+    }
+
+    public static MonsterType randomMonster(int heroLvl) {
+        List<MonsterType> suitable = Arrays.stream(MonsterType.values())
+                .filter(t -> t.getLvl() <= heroLvl + 1)
+                .toList();
+        return suitable.get(rand.nextInt(suitable.size()));
     }
 
 

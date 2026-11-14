@@ -53,6 +53,10 @@ public class Hero extends GameCharacter{
         return gold;
     }
 
+    public void refillPotions() {
+        healPotions = 3;
+    }
+
 
     public Hero(String name, int HP, int ATK, int lvl, int CR){
         super(name, HP, ATK, CR);
