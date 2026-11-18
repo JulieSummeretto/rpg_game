@@ -1,11 +1,15 @@
 package julie.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Hero extends GameCharacter{
     private int lvl;
-    private int CR;
-
     private int exp;
     private int gold;
+
+    private final List<Item> inventory = new ArrayList<>();
+    private Item equipped;
 
     private int healPotions = 3;
 
@@ -36,9 +40,33 @@ public class Hero extends GameCharacter{
         return lvlUps;
     }
 
-    public void applyLvlUp() {
+    private void applyLvlUp() {
         increaseStats(10, 4);
         restoreHealth(getMaxHP());
+    }
+
+    public void addItem(Item item) {
+        inventory.add(item);
+    }
+
+    public boolean equip(Item item) {
+        if (!inventory.remove(item)) {
+            return false;
+        }
+        if (equipped != null) {
+            inventory.add(equipped);
+        }
+        clampHealth();
+        equipped = item;
+        return true;
+    }
+
+    public void unequip() {
+        if (equipped != null) {
+            inventory.add(equipped);
+            equipped = null;
+        }
+        clampHealth();
     }
 
     public int getLvl() {
@@ -57,10 +85,28 @@ public class Hero extends GameCharacter{
         healPotions = 3;
     }
 
+    public List<Item> getInventory() {
+        return List.copyOf(inventory);
+    }
+
+    @Override
+    public int getATK() {
+        return super.getATK() + (equipped == null ? 0 : equipped.getAtkBonus());
+    }
+
+    @Override
+    public int getCR() {
+        return super.getCR() + (equipped == null ? 0 : equipped.getCritChanceBonus());
+    }
+
+    @Override
+    public int getMaxHP() {
+        return super.getMaxHP() + (equipped == null ? 0 : equipped.getHpBonus());
+    }
+
 
     public Hero(String name, int HP, int ATK, int lvl, int CR){
         super(name, HP, ATK, CR);
         this.lvl = lvl;
-        this.CR = CR;
     }
 }

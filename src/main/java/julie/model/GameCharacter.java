@@ -22,8 +22,12 @@ public abstract class GameCharacter {
 
     protected int restoreHealth(int amount) {
         int before = HP;
-        HP = Math.min(maxHP, HP + amount);
+        HP = Math.min(getMaxHP(), HP + amount);
         return HP - before;
+    }
+
+    protected void clampHealth() {
+        HP = Math.min(HP, getMaxHP());
     }
 
     protected void increaseStats(int hpBonus, int atkBonus) {
@@ -32,7 +36,7 @@ public abstract class GameCharacter {
     }
 
     public AttackRecord attack(GameCharacter target) {
-        AttackRecord dmg = Dice.damage(ATK, CR);
+        AttackRecord dmg = Dice.damage(getATK(), getCR());
         target.takeHit(dmg.damage());
         return dmg;
     }
@@ -46,5 +50,13 @@ public abstract class GameCharacter {
 
     public int getMaxHP() {
         return maxHP;
+    }
+
+    public int getATK() {
+        return ATK;
+    }
+
+    public int getCR() {
+        return CR;
     }
 }
